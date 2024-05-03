@@ -2,8 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
+import * as path from 'path';
 
-ConfigModule.forRoot();
+ConfigModule.forRoot({
+  envFilePath: path.resolve(__dirname, '../../../.env'), // Путь к файлу .env
+});
 
 const pg = new URL(process.env.APP_PG_URL);
 

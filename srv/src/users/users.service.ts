@@ -14,6 +14,21 @@ export class UserService {
 
   // get list of all users
   async findAll(): Promise<UsersEntity[]> {
+    console.log(this.usersRepo.find);
+
     return await this.usersRepo.find();
+  }
+
+  async countUsers(): Promise<number> {
+    return this.usersRepo.count();
+  }
+
+  async findUsersByPage(page: number, limit: number): Promise<{ users: UsersEntity[]; totalPages: number }> {
+    console.log(page);
+    const skip = (page - 1) * limit;
+    const users = await this.usersRepo.find({ skip, take: limit });
+    const totalUsers = await this.countUsers();
+    const totalPages = Math.ceil(totalUsers / limit);
+    return { users, totalPages };
   }
 }
